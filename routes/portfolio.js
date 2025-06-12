@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 // 新增一筆作品
 router.post('/', async (req, res) => {
   try {
-    const { title, description, skill, thirdPartyServices, url } = req.body;
+    const { title, description, skill, thirdPartyServices, url , imgUrl } = req.body;
 
     if (!title || !description) {
       return res.status(400).json({ success: false, error: '缺少 title 或 description' });
@@ -36,6 +36,7 @@ router.post('/', async (req, res) => {
       skill: skill || [],
       thirdPartyServices: thirdPartyServices || [],
       url: url || '',
+      imgUrl: imgUrl || '',
       createdAt: new Date()
     });
 
