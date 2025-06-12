@@ -8,9 +8,9 @@ app.use(cors());
 app.use(express.json());
 
 // 初始化 Firebase Admin
-const serviceAccount = require('./firebaseKey.json');
+const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG_JSON);
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(firebaseConfig)
 });
 const db = admin.firestore();
 
