@@ -47,4 +47,53 @@ router.post('/', async (req, res) => {
   }
 });
 
+// 編輯一筆作品
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, skill, thirdPartyServices, url, imgUrl } = req.body;
+
+    const docRef = db.collection('portfolio').doc(id);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ success: false, error: '找不到該作品' });
+    }
+
+    await docRef.update({
+      title,
+      description,
+      skill: skill || [],
+      thirdPartyServices: thirdPartyServices || [],
+      url: url || '',
+      imgUrl: imgUrl || '',
+      updatedAt: new Date()
+    });
+
+    res.json({ success: true, message: '更新成功' });
+  } catch (error) {
+    console.error('更新失敗:', error);
+    res.status(500).json({ success: false, error: '更新失敗' });
+  }
+});
+
+// 刪除一筆作品
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const docRef = db.collection('portfolio').doc(id);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ success: false, error: '找不到該作品' });
+    }
+
+    await docRef.delete();
+    res.json({ success: true, message: '刪除成功' });
+  } catch (error) {
+    console.error('刪除失敗:', error);
+    res.status(500).json({ success: false, error: '刪除失敗' });
+  }
+});
+
 module.exports = router;
