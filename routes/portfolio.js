@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../firebase');
+const verifyToken = require('../middleware/authMiddleware.js');
 
 // 取得所有作品
 router.get('/', async (req, res) => {
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
 });
 
 // 新增一筆作品
-router.post('/', async (req, res) => {
+router.post('/',verifyToken, async (req, res) => {
   try {
     const { title, description, skill, thirdPartyServices, url , imgUrl } = req.body;
 
@@ -48,7 +49,7 @@ router.post('/', async (req, res) => {
 });
 
 // 編輯一筆作品
-router.put('/:id', async (req, res) => {
+router.put('/:id',verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, skill, thirdPartyServices, url, imgUrl } = req.body;
@@ -78,7 +79,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // 刪除一筆作品
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     const docRef = db.collection('portfolio').doc(id);

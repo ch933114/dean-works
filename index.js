@@ -5,7 +5,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const authRoutes = require('./routes/auth');
 const portfolioRouter = require('./routes/portfolio');
+
+// 登入用
+app.use('/auth', authRoutes);
+// 作品資料
 app.use('/portfolio', portfolioRouter);
 
 const PORT = process.env.PORT || 3000;
