@@ -6,7 +6,7 @@ const router = express.Router();
 const db = require('../firebase');
 
 
-const SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
+const SECRET = process.env.JWT_SECRET;
 
 // 登入 API
 router.post('/login', async (req, res) => {
